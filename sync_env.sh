@@ -1,5 +1,15 @@
 #!/bin/bash
 
+# Install Bitwarden CLI if the system doesn't have it
+# Must login manually using 'bw login' once the installation is done
+if ! command -v bw; then
+  echo "Bitwarden CLI is not installed. Starting installation via NPM..."
+  
+  npm install -g @bitwarden/cli
+  
+  echo "Installation completed. Proceeding..."
+fi
+
 # Unlock Bitwarden and create session key
 if SESSION_KEY=$(bw unlock --raw); then
   echo "Session unlocked"
@@ -17,5 +27,6 @@ if SESSION_KEY=$(bw unlock --raw); then
   echo "Closed the session"
 else
   echo "Session unlock failed"
+  ehco "Please check your credential"
   exit 1
 fi
